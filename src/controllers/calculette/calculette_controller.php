@@ -16,7 +16,8 @@ if(str_contains($_SERVER['HTTP_REFERER'], "calculette.php") and $_SERVER['REQUES
     $_SESSION["operator"] = $operator;
     // Exécution de la méthode du service pour calcul
     $_SESSION["result"] = calculate($first_number, $second_number, $operator);
+    $_SESSION["signus"] = fixSignus($operator);
     // Redirection vers la vue adéquate
-    header("location: ../../../views/calculette.php");
+    header("location: ../../../views/calculette/calculette.php");
     die();
 }

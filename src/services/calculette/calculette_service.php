@@ -1,25 +1,44 @@
-<?php 
+<?php
 
-function calculate($first_number = 0, $second_number = 0, $operator = "add") {
+function calculate($first_number = 0, $second_number = 0, $operator = "add")
+{
 
-    $result = 0;
+    $result = "Erreur: Impossible d'effectuer votre calcul, veuillez effectuer une nouvelle demande";
 
-    switch($operator){
-        case "add":
-            $result = $first_number + $second_number;
-            break;
-        case "subtract":
-            $result = $first_number - $second_number;
-            break;
-        case "multiply":
-            $result = $first_number * $second_number;
-            break;
-        case "divide":
-            $result = $second_number == 0 ? $result = "Erreur: Il n'est pas possible de diviser par zéro" : $first_number / $second_number;
-            break;
-        default:
-            $result = "Erreur: Impossible d'effectuer votre calcul, veuillez effectuer une nouvelle demande";
+    if ($first_number != "" && $second_number != "") {
+        switch ($operator) {
+            case "add":
+                $result = $first_number + $second_number;
+                break;
+            case "subtract":
+                $result = $first_number - $second_number;
+                break;
+            case "multiply":
+                $result = $first_number * $second_number;
+                break;
+            case "divide":
+                $result = $second_number == 0 ? $result = "Erreur: Il n'est pas possible de diviser par zéro" : $first_number / $second_number;
+                break;
+        }
     }
 
+    return $result;
+}
+
+// Fonction permettant de conditionner l'affichage selon le signe entrée par l'utilisateur
+function fixSignus($operator)
+{
+    $result = "+";
+    switch ($operator) {
+        case "subtract":
+            $result = "-";
+            break;
+        case "multiply":
+            $result = "x";
+            break;
+        case "divide":
+            $result = "/";
+            break;
+    }
     return $result;
 }
