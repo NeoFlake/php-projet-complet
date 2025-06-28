@@ -1,0 +1,12 @@
+Ce projet doit inclure:
+
+1/ L'exercice calculette
+2/ L'exercice conjuguaison
+3/ Créer une gestion d'utilisateur permettant de:
+- Créer un nouveau compte
+- Accéder à un compte
+- Modifier des informations lié à son compte
+- Détruire son compte
+4/ Seules les personnes connectés pourront accéder aux deux applications
+5/ Toute activité effectuées sur l'une des deux applications devra être remontées 
+   comme information dans une table de donné (id user, date log, activité effectué)
