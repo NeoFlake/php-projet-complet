@@ -13,7 +13,7 @@ unset($_SESSION['first_number'], $_SESSION['second_number'], $_SESSION['operator
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -25,7 +25,7 @@ unset($_SESSION['first_number'], $_SESSION['second_number'], $_SESSION['operator
 <body>
     <div class="container">
         <div class="d-flex justify-content-center mt-5">
-            <h1>Ma première calculette</h1>
+            <h1>Calculatrice</h1>
         </div>
         <div class="mt-5">
             <form action="../../src/controllers/calculette/calculette_controller.php" method="post">
