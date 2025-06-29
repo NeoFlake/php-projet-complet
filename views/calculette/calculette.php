@@ -8,7 +8,6 @@ $operator = $_SESSION["operator"] ?? "add";
 $result = $_SESSION["result"] ?? null;
 $signus = $_SESSION["signus"] ?? "+";
 
-// Après affectation on unset les paramètres pour éviter les problèmes de redondances des valeurs
 unset($_SESSION['first_number'], $_SESSION['second_number'], $_SESSION['operator'], $_SESSION['result']);
 ?>
 
