@@ -12,7 +12,6 @@ function save_new_user($username, $password, $first_name, $last_name)
     } else {
         $first_name == "" ? $first_name = "Thomas" : null;
         $last_name == "" ? $last_name = "Anderson" : null;
-
         try {
             get_user_by_username($username);
             $result .= "Un utilisateur avec ce pseudonyme existe déjà";

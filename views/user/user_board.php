@@ -9,7 +9,7 @@ if (!isset($_SESSION["username_logged"])) {
     $username_logged = $_SESSION["username_logged"];
     $first_name = $_SESSION["first_name"];
     $last_name = $_SESSION["last_name"];
-    $date_of_creation = strtotime($_SESSION["date_of_creation"]); // -> On transforme la string de date en format date pure
+    $date_of_creation = $_SESSION["date_of_creation"];
 }
 
 ?>

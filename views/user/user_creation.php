@@ -7,7 +7,7 @@ $first_name = $_SESSION["first_name"] ?? "";
 $last_name = $_SESSION["last_name"] ?? "";
 $fail_creation = $_SESSION["fail_creation"] ?? null;
 
-unset($_SESSION['username'], $_SESSION['first_name'], $_SESSION['last_name']);
+unset($_SESSION['username'], $_SESSION['first_name'], $_SESSION['last_name'], $_SESSION["fail_creation"]);
 
 ?>
 

@@ -29,7 +29,7 @@ function save_user($username, $password, $first_name, $last_name)
 {
     $pdo = get_connection();
     try {
-        $select = "INSERT INTO * users (username, password, first_name, last_name, date_of_creation) VALUES
+        $select = "INSERT INTO users (username, password, first_name, last_name, date_of_creation) VALUES
         (
         :username,
         :password,

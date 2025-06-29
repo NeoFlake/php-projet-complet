@@ -13,7 +13,7 @@ if (str_contains($_SERVER['HTTP_REFERER'], "user_creation.php") and $_SERVER['RE
 
     $saved = save_new_user($username, $password, $first_name, $last_name);
 
-    if ($saved == true) {
+    if ($saved === true) {
         $user = get_user($username);
         if (is_string($user)) {
             $_SESSION["username"] = $username;
