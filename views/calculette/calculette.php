@@ -23,6 +23,7 @@ unset($_SESSION['first_number'], $_SESSION['second_number'], $_SESSION['operator
 
 <body>
     <div class="container">
+        <?php include "../partial/_navbar.php" ?>
         <div class="d-flex justify-content-center mt-5">
             <h1>Calculatrice</h1>
         </div>

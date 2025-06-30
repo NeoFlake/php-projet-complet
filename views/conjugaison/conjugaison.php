@@ -23,6 +23,7 @@ unset($_SESSION["temps"], $_SESSION["verb"], $_SESSION["table_de_conjugaison"]);
 
 <body>
     <div class="container">
+        <?php include "../partial/_navbar.php" ?>
         <div class="d-flex justify-content-center mt-5">
             <h1>Conjugaison du premier groupe</h1>
         </div>

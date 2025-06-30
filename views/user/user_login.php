@@ -5,6 +5,10 @@ session_start();
 $username = $_SESSION["username"] ?? "";
 $fail_connexion = $_SESSION["fail_connexion"] ?? null;
 
+if(isset($_SESSION["username_logged"])){
+    unset($_SESSION["username_logged"]);
+}
+
 unset($_SESSION['username'], $_SESSION["fail_connexion"]);
 
 ?>

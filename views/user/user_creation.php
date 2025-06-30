@@ -7,6 +7,10 @@ $first_name = $_SESSION["first_name"] ?? "";
 $last_name = $_SESSION["last_name"] ?? "";
 $fail_creation = $_SESSION["fail_creation"] ?? null;
 
+if(isset($_SESSION["username_logged"])){
+    unset($_SESSION["username_logged"]);
+}
+
 unset($_SESSION['username'], $_SESSION['first_name'], $_SESSION['last_name'], $_SESSION["fail_creation"]);
 
 ?>
@@ -36,7 +40,7 @@ unset($_SESSION['username'], $_SESSION['first_name'], $_SESSION['last_name'], $_
                 </div>
                 <div class="row mt-4">
                     <div class="col-12">
-                        <label for="password" class="form-label">Password </label>
+                        <label for="password" class="form-label">Mot de passe </label>
                         <input type="password" id="password" name="password" class="form-control" />
                     </div>
                 </div>

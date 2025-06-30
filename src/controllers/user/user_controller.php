@@ -23,9 +23,7 @@ if (str_contains($_SERVER['HTTP_REFERER'], "user_creation.php") and $_SERVER['RE
             header("location: ../../../views/user/user_creation.php");
         } else {
             $_SESSION["username_logged"] = $user["username"];
-            $_SESSION["first_name"] = $user["first_name"];
-            $_SESSION["last_name"] = $user["last_name"];
-            $_SESSION["date_of_creation"] = format_date($user["date_of_creation"]);
+            $_SESSION["user"] = $user;
             header("location: ../../../views/user/user_board.php");
         }
     } else {
@@ -47,14 +45,39 @@ if (str_contains($_SERVER['HTTP_REFERER'], "user_login.php") and $_SERVER['REQUE
 
     if (!is_string($logged)) {
         $_SESSION["username_logged"] = $logged["username"];
-        $_SESSION["first_name"] = $logged["first_name"];
-        $_SESSION["last_name"] = $logged["last_name"];
-        $_SESSION["date_of_creation"] = format_date($logged["date_of_creation"]);
+        $_SESSION["user"] = $logged;
         header("location: ../../../views/user/user_board.php");
     } else {
         $_SESSION["username"] = $username;
         $_SESSION["fail_connexion"] = $logged;
         header("location: ../../../views/user/user_login.php");
     }
+    die();
+}
+
+if (str_contains($_SERVER['HTTP_REFERER'], "user_board.php") and $_SERVER['REQUEST_METHOD'] == 'POST' and $_POST['modify_user_button'] === "validated") {
+
+    $old_values = $_SESSION["user"];
+
+    $new_values = [
+        "username"=>htmlentities($_POST["new_username"]),
+        "old_password" => htmlentities($_POST["old_password"]),
+        "new_password" => htmlentities($_POST["new_password"]),
+        "confirm_password" => htmlentities($_POST["confirm_password"]),
+        "first_name" => htmlentities($_POST["new_first_name"]),
+        "last_name" => htmlentities($_POST["new_last_name"])
+    ];
+
+    $updated = update_user($old_values, $new_values);
+
+    if (!is_string($updated)) {
+        $_SESSION["user"] = $updated;
+    } else {
+        $_SESSION["fail_udpate"] = $updated;
+    }
+
+    $_SESSION["displayed_zone"] = "modify_user";
+    
+    header("location: ../../../views/user/user_board.php");
     die();
 }
