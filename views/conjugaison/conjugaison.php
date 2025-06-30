@@ -18,7 +18,7 @@ unset($_SESSION["temps"], $_SESSION["verb"], $_SESSION["table_de_conjugaison"]);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conjugaison</title>
-    <?php include "../partial.php/bootstrap_header.php" ?>
+    <?php include "../partial/_bootstrap_header.php" ?>
 </head>
 
 <body>
@@ -66,7 +66,7 @@ unset($_SESSION["temps"], $_SESSION["verb"], $_SESSION["table_de_conjugaison"]);
         }
         ?>
     </div>
-    <?php include "../partial.php/bootstrap_body.php" ?>
+    <?php include "../partial/_bootstrap_body.php" ?>
 </body>
 
 </html>

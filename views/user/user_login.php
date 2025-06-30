@@ -3,28 +3,26 @@
 session_start();
 
 $username = $_SESSION["username"] ?? "";
-$first_name = $_SESSION["first_name"] ?? "";
-$last_name = $_SESSION["last_name"] ?? "";
-$fail_creation = $_SESSION["fail_creation"] ?? null;
+$fail_connexion = $_SESSION["fail_connexion"] ?? null;
 
-unset($_SESSION['username'], $_SESSION['first_name'], $_SESSION['last_name'], $_SESSION["fail_creation"]);
+unset($_SESSION['username'], $_SESSION["fail_connexion"]);
 
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Création utilisateur</title>
+    <title>Connexion utilisateur</title>
     <?php include "../partial/_bootstrap_header.php" ?>
 </head>
 
 <body>
     <div class="container">
         <div class="d-flex justify-content-center mt-5">
-            <h1>Création de compte</h1>
+            <h1>Connexion</h1>
         </div>
         <div class="d-flex justify-content-center mt-5">
             <form action="../../src/controllers/user/user_controller.php" method="post">
@@ -40,32 +38,20 @@ unset($_SESSION['username'], $_SESSION['first_name'], $_SESSION['last_name'], $_
                         <input type="password" id="password" name="password" class="form-control" />
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <label for="first_name" class="form-label">Prénom </label>
-                        <input type="text" id="first_name" name="first_name" class="form-control" value="<?php echo $first_name ?>" />
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <label for="last_name" class="form-label">Nom de Famille </label>
-                        <input type="text" id="last_name" name="last_name" class="form-control" value="<?php echo $last_name ?>" />
-                    </div>
-                </div>
                 <div class="row mt-5 d-flex justify-content-center">
-                    <button class="btn btn-primary col-10">Créer</button>
+                    <button class="btn btn-primary col-10">Connexion</button>
                 </div>
             </form>
         </div>
-    </div>
-    <div class="d-flex justify-content-center mt-5">
-        <span>Vous avez déjà un compte ? <a href="./user_login.php">Connectez-vous</a></span>
-    </div>
-    <div class="d-flex justify-content-center mt-5">
+        <div class="d-flex justify-content-center mt-5">
+            <span>Vous n'avez pas de compte ? <a href="./user_creation.php">Inscrivez-vous</a></span>
+        </div>
+        <div class="d-flex justify-content-center mt-5">
             <div class="d-flex justify-content-center mt-5">
-                <span> <?php echo $fail_creation ?></span>
+                <span> <?php echo $fail_connexion ?></span>
             </div>
         </div>
+    </div>
     <?php include "../partial/_bootstrap_body.php" ?>
 </body>
 

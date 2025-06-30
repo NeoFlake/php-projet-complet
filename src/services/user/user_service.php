@@ -46,6 +46,31 @@ function get_user($username)
     return $result;
 }
 
+function user_login($username, $password)
+{
+
+    $result = "Échec de connexion : ";
+
+    if ($username == "" or $password == "") {
+        $result .= "Pseudonyme ou mot de passe sans valeur; veuillez valoriser";
+    } else {
+        try {
+            $user = get_user_by_username($username);
+            if($user["password"] === $password){
+                $result = $user;
+            } else {
+                $result .= "Le mot de passe est incorrect";
+            }
+        } catch (PDOException $pdo_error) {
+            $result .= "Erreur Fatale lors de la demande de connexion; veuillez réessayer (" . $pdo_error->getMessage() . ")";
+        } catch (Exception $error) {
+            $result .= "L'utilisateur n'existe pas";
+        }
+    }
+
+    return $result;
+}
+
 function format_date($date)
 {
     $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE);

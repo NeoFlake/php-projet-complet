@@ -18,7 +18,7 @@ unset($_SESSION['first_number'], $_SESSION['second_number'], $_SESSION['operator
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculette</title>
-    <?php include "../partial.php/bootstrap_header.php" ?>
+    <?php include "../partial/_bootstrap_header.php" ?>
 </head>
 
 <body>
@@ -61,7 +61,7 @@ unset($_SESSION['first_number'], $_SESSION['second_number'], $_SESSION['operator
             ?>
         </div>
     </div>
-    <?php include "../partial.php/bootstrap_body.php" ?>
+    <?php include "../partial/_bootstrap_body.php" ?>
 </body>
 
 </html>

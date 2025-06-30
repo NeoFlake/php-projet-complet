@@ -21,11 +21,12 @@ if (!isset($_SESSION["username_logged"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de l'utilisateur</title>
-    <?php include "../partial.php/bootstrap_header.php" ?>
+    <?php include "../partial/_bootstrap_header.php" ?>
 </head>
 
 <body>
     <div class="container">
+        <?php include "../partial/_navbar.php" ?>
         <div class="d-flex justify-content-center mt-5">
             <h1>Tableau de bord de <?php echo $first_name . " " . $last_name ?></h1>
         </div>
@@ -57,7 +58,7 @@ if (!isset($_SESSION["username_logged"])) {
             </div>
         </div>
     </div>
-    <?php include "../partial.php/bootstrap_body.php" ?>
+    <?php include "../partial/_bootstrap_body.php" ?>
 </body>
 
 </html>

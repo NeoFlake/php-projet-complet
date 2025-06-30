@@ -37,3 +37,24 @@ if (str_contains($_SERVER['HTTP_REFERER'], "user_creation.php") and $_SERVER['RE
     }
     die();
 }
+
+if (str_contains($_SERVER['HTTP_REFERER'], "user_login.php") and $_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $username = htmlentities($_POST["username"]);
+    $password = htmlentities($_POST["password"]);
+
+    $logged = user_login($username, $password);
+
+    if (!is_string($logged)) {
+        $_SESSION["username_logged"] = $logged["username"];
+        $_SESSION["first_name"] = $logged["first_name"];
+        $_SESSION["last_name"] = $logged["last_name"];
+        $_SESSION["date_of_creation"] = format_date($logged["date_of_creation"]);
+        header("location: ../../../views/user/user_board.php");
+    } else {
+        $_SESSION["username"] = $username;
+        $_SESSION["fail_connexion"] = $logged;
+        header("location: ../../../views/user/user_login.php");
+    }
+    die();
+}
