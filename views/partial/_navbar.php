@@ -16,7 +16,9 @@
           <a class="nav-link active" aria-current="page" href="../user/user_board.php" <?php echo (basename($_SERVER["PHP_SELF"]) === "user_board.php") ? "aria-disabled=\"true\"" : ""; ?>>Tableau de bord</a>
         </li>
       </ul>
-      <button class="btn btn-outline-primary fw-bold" type="submit">Déconnexion</button>
+      <form action="../../src/controllers/user/deconnection_controller.php" method="get">
+        <button class="btn btn-outline-primary fw-bold" type="submit">Déconnexion</button>
+      </form>
     </div>
   </div>
 </nav>

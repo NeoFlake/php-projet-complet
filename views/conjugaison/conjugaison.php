@@ -2,12 +2,17 @@
 
 session_start();
 
-$temps = $_SESSION["temps"] ?? "present";
-$verb = $_SESSION["verb"] ?? "";
-$table_de_conjugaison = $_SESSION["table_de_conjugaison"] ?? null;
+if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
+    header("location: ./user_login.php");
+    die();
+} else {
+    $temps = $_SESSION["temps"] ?? "present";
+    $verb = $_SESSION["verb"] ?? "";
+    $table_de_conjugaison = $_SESSION["table_de_conjugaison"] ?? null;
 
-// Après affectation on unset les paramètres pour éviter les problèmes de redondances des valeurs
-unset($_SESSION["temps"], $_SESSION["verb"], $_SESSION["table_de_conjugaison"]);
+    // Après affectation on unset les paramètres pour éviter les problèmes de redondances des valeurs
+    unset($_SESSION["temps"], $_SESSION["verb"], $_SESSION["table_de_conjugaison"]);
+}
 
 ?>
 
@@ -57,7 +62,7 @@ unset($_SESSION["temps"], $_SESSION["verb"], $_SESSION["table_de_conjugaison"]);
                 echo "</span>";
                 echo "<div class=\"d-flex justify-content-center mt-3\">";
                 echo "<ol>";
-                foreach($table_de_conjugaison as $ligne_de_conjugaison){
+                foreach ($table_de_conjugaison as $ligne_de_conjugaison) {
                     echo "<li>" . $ligne_de_conjugaison . "</li>";
                 }
                 echo "</ol>";

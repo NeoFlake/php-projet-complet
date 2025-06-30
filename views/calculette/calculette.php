@@ -2,13 +2,19 @@
 
 session_start();
 
-$first_number = $_SESSION["first_number"] ?? 0;
-$second_number = $_SESSION["second_number"] ?? 0;
-$operator = $_SESSION["operator"] ?? "add";
-$result = $_SESSION["result"] ?? null;
-$signus = $_SESSION["signus"] ?? "+";
+if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
+    header("location: ./user_login.php");
+    die();
+} else {
+    $first_number = $_SESSION["first_number"] ?? 0;
+    $second_number = $_SESSION["second_number"] ?? 0;
+    $operator = $_SESSION["operator"] ?? "add";
+    $result = $_SESSION["result"] ?? null;
+    $signus = $_SESSION["signus"] ?? "+";
 
-unset($_SESSION['first_number'], $_SESSION['second_number'], $_SESSION['operator'], $_SESSION['result']);
+    unset($_SESSION['first_number'], $_SESSION['second_number'], $_SESSION['operator'], $_SESSION['result']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -50,9 +56,9 @@ unset($_SESSION['first_number'], $_SESSION['second_number'], $_SESSION['operator
                 </div>
             </form>
             <?php
-            if(isset($result)){
+            if (isset($result)) {
                 echo "<div class=\"d-flex justify-content-center mt-5\">";
-                if(is_string($result)){
+                if (is_string($result)) {
                     echo $result;
                 } else {
                     echo $first_number . " " . $signus . " " . $second_number . " = " . $result;
