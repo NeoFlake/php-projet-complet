@@ -17,6 +17,21 @@ if(str_contains($_SERVER['HTTP_REFERER'], "calculette.php") and $_SERVER['REQUES
     // Exécution de la méthode du service pour calcul
     $_SESSION["result"] = calculate($first_number, $second_number, $operator);
     $_SESSION["signus"] = fixSignus($operator);
+
+    if(!is_string($_SESSION["result"])){
+        $operation = [
+            "id_user" => $_SESSION["user"]["id"],
+            "first_number" => $_SESSION["first_number"],
+            "second_number" => $_SESSION["second_number"],
+            "operator" => $_SESSION["operator"],
+            "result" => $_SESSION["result"]
+        ];
+
+        $sauvegarde = save_calcul($operation);
+        if(is_string($sauvegarde)){
+            $_SESSION["result"] = $sauvegarde;
+        }
+    }
     // Redirection vers la vue adéquate
     header("location: ../../../views/calculette/calculette.php");
     die();

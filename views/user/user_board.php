@@ -2,6 +2,10 @@
 
 session_start();
 
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
 include "../../src/services/user/user_service.php";
 
 if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {

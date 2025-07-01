@@ -1,5 +1,7 @@
 <?php
 
+include __DIR__ . "/../../repositories/calculette_repositorie.php";
+
 function calculate($first_number = 0, $second_number = 0, $operator = "add")
 {
 
@@ -39,6 +41,17 @@ function fixSignus($operator)
         case "divide":
             $result = "/";
             break;
+    }
+    return $result;
+}
+
+function save_calcul($operation){
+    $result = "Échec de la sauvegarde du calcul : ";
+    try {
+        save_new_calcul($operation);
+        $result = true;
+    } catch(PDOException $pdo_error){
+        $result .= "Erreur fatale (" . $pdo_error->getMessage() . "), veuillez réessayer";
     }
     return $result;
 }

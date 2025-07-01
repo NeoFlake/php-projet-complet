@@ -2,13 +2,17 @@
 
 session_start();
 
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
 $username = $_SESSION["username"] ?? "";
 $first_name = $_SESSION["first_name"] ?? "";
 $last_name = $_SESSION["last_name"] ?? "";
 $fail_creation = $_SESSION["fail_creation"] ?? null;
 
 if(isset($_SESSION["username_logged"])){
-    unset($_SESSION["username_logged"]);
+    header("location: ./user_board.php");
 }
 
 unset($_SESSION['username'], $_SESSION['first_name'], $_SESSION['last_name'], $_SESSION["fail_creation"]);
