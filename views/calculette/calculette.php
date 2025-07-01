@@ -7,7 +7,7 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
-    header("location: ./user_login.php");
+    header("location: ../user/user_login.php");
     die();
 } else {
     $first_number = $_SESSION["first_number"] ?? 0;

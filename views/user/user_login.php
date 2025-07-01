@@ -9,7 +9,7 @@ header("Pragma: no-cache");
 $username = $_SESSION["username"] ?? "";
 $fail_connexion = $_SESSION["fail_connexion"] ?? null;
 
-if(isset($_SESSION["username_logged"])){
+if (isset($_SESSION["username_logged"])) {
     header("location: ./user_board.php");
 }
 

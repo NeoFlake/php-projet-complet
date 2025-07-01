@@ -10,7 +10,6 @@ include "../../src/services/user/user_service.php";
 
 if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
     header("location: ./user_login.php");
-    die();
 } else {
     $username_logged = $_SESSION["username_logged"];
     $first_name = $_SESSION["user"]["first_name"] ?? "";

@@ -115,7 +115,10 @@ if (str_contains($_SERVER['HTTP_REFERER'], "user_board.php") and $_SERVER['REQUE
 
     if (verify_total_destruction_condition($total_destruction) === true) {
         $deleted_user = delete_user($_SESSION["user"]);
+
         if(!is_string($deleted_user)){
+            unset($_SESSION["user"]);
+            unset($_SESSION["username_logged"]);
             header("location: ../../../views/user/user_login.php");
         }
         header("location: ../../../views/user/user_board.php");
