@@ -1,5 +1,7 @@
 <?php
 
+include __DIR__ . "/../../repositories/conjugaison_repositorie.php";
+
 function conjuguer($verb = "conjuguer", $temps = "present") {
 
     $result = "Erreur: Impossible de conjuguer ";
@@ -45,4 +47,16 @@ function conjuguer($verb = "conjuguer", $temps = "present") {
 
     return $result;
 
+}
+
+function get_all_conjugaison_by_id($id){
+    $result = "Échec de réception de l'historique des conjugaisons : ";
+    try {
+        $result = get_by_id($id);
+    } catch (PDOException $pdo_error){
+        $result .= "Erreur fatale (" . $pdo_error->getMessage() . "), veuillez réessayer";
+    } catch(Error $error) {
+        $result . $error->getMessage();
+    }
+    return $result;
 }

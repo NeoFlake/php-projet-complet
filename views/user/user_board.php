@@ -24,6 +24,8 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
 
     $historique_calculette = $_SESSION["historique_calculette"] ?? null;
 
+    $historique_conjugaison = $_SESSION["historique_conjugaison"] ?? null;
+
     unset($_SESSION["fail_udpate"], $_SESSION["displayed_zone"], $_SESSION["deleting_step"], $_SESSION["historique_calculette"]);
 }
 
@@ -59,7 +61,7 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                         </div>
                         <div class="col-7">
                             <div class="row">
-                                <button class="btn btn-success col-9 offset-1">Historique conjugaison</button>
+                                <button class="btn btn-success col-9 offset-1" name="display_zone" value="conjugaison_history">Historique conjugaison</button>
                             </div>
                         </div>
                     </div>
@@ -111,6 +113,9 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                         <?php } ?>
                         </ul>
                         <?php break;
+                        case "conjugaison_history": ?>
+
+                           <?php break;
                         case "modify_user":
                 ?>
                             <?php if (isset($date_of_last_modify)) { ?>
