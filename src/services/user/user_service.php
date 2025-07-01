@@ -124,10 +124,27 @@ function second_part_of_update_user($old_values, $new_values){
                 user_updating($new_user_to_insert);
                 $result = get_user_by_username($new_user_to_insert["username"]);
             } catch (PDOException $error) {
-                $result .= "Erreur Fatale, la mise à jour de l'utilisateur a échoué (" . $error->getMessage() . "); veuillez réessayez";
+                $result .= "Erreur Fatale, la mise à jour de l'utilisateur a échoué (" . $error->getMessage() . "); veuillez réessayer";
             }
 
     return $result;
+}
+
+function delete_user($user){
+    $result = "Échec de la destruction du profil ";
+    try {
+        delete_user_by_id($user["id"]);
+        $result = true;
+        unset($_SESSION["user"]);
+        unset($_SESSION["user_logged"]);
+    } catch(PDOException $pdo_erreur){
+        $result .= "Erreur fatale lors de la destruction du profil (" . $pdo_erreur->getMessage() . "); veuillez réessayer";
+    }
+    return $result;
+}
+
+function verify_total_destruction_condition($total_destruction){
+    return $total_destruction === "CONFIRMER DESTRUCTION";
 }
 
 function format_date($date)

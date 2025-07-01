@@ -75,3 +75,18 @@ function user_updating($new_user_to_insert)
         throw new PDOException($error->getMessage());
     }
 }
+
+function delete_user_by_id($id) {
+    $pdo = get_connection();
+    try {
+        $delete = "DELETE FROM users
+        WHERE id = :id";
+
+        $query = $pdo->prepare($delete);
+        $query->bindValue(":id", $id);
+
+        $query->execute();
+    } catch (PDOException $error) {
+        throw new PDOException($error->getMessage());
+    }
+}

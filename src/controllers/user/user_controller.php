@@ -55,12 +55,12 @@ if (str_contains($_SERVER['HTTP_REFERER'], "user_login.php") and $_SERVER['REQUE
     die();
 }
 
-if (str_contains($_SERVER['HTTP_REFERER'], "user_board.php") and $_SERVER['REQUEST_METHOD'] == 'POST' and $_POST['modify_user_button'] === "validated") {
+if (str_contains($_SERVER['HTTP_REFERER'], "user_board.php") and $_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST['modify_user_button']) and $_POST['modify_user_button'] === "validated") {
 
     $old_values = $_SESSION["user"];
 
     $new_values = [
-        "username"=>htmlentities($_POST["new_username"]),
+        "username" => htmlentities($_POST["new_username"]),
         "old_password" => htmlentities($_POST["old_password"]),
         "new_password" => htmlentities($_POST["new_password"]),
         "confirm_password" => htmlentities($_POST["confirm_password"]),
@@ -77,7 +77,51 @@ if (str_contains($_SERVER['HTTP_REFERER'], "user_board.php") and $_SERVER['REQUE
     }
 
     $_SESSION["displayed_zone"] = "modify_user";
-    
+
     header("location: ../../../views/user/user_board.php");
+    die();
+}
+
+if (str_contains($_SERVER['HTTP_REFERER'], "user_board.php") and $_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST['delete_first_step']) and  $_POST['delete_first_step']=== "validated" or $_POST['delete_first_step'] === "aborted") {
+
+    if ($_POST['delete_first_step'] === "validated") {
+        $_SESSION["displayed_zone"] = "delete_user";
+        $_SESSION["deleting_step"] = 2;
+    }
+
+    header("location: ../../../views/user/user_board.php");
+    die();
+}
+
+if (str_contains($_SERVER['HTTP_REFERER'], "user_board.php") and $_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST['delete_second_step']) and $_POST['delete_second_step'] === "confirmed") {
+
+    $username = htmlentities($_POST["username"]);
+    $password = htmlentities($_POST["password"]);
+
+    $logged = user_login($username, $password);
+
+    if (!is_string($logged)) {
+        $_SESSION["displayed_zone"] = "delete_user";
+        $_SESSION["deleting_step"] = 3;
+    }
+
+    header("location: ../../../views/user/user_board.php");
+    die();
+}
+
+if (str_contains($_SERVER['HTTP_REFERER'], "user_board.php") and $_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST['delete_last_step']) and $_POST['delete_last_step'] === "confirmed") {
+
+    $total_destruction = htmlentities($_POST["total_destruction"]);
+
+    if (verify_total_destruction_condition($total_destruction) === true) {
+        $deleted_user = delete_user($_SESSION["user"]);
+        if(!is_string($deleted_user)){
+            header("location: ../../../views/user/user_login.php");
+        }
+        header("location: ../../../views/user/user_board.php");
+    } else {
+        header("location: ../../../views/user/user_board.php");
+    }
+
     die();
 }
