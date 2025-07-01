@@ -55,3 +55,15 @@ function save_calcul($operation){
     }
     return $result;
 }
+
+function get_all_calcul_by_id($id){
+    $result = "Échec de réception de l'historique des calculs : ";
+    try {
+        $result = get_by_id($id);
+    } catch (PDOException $pdo_error){
+        $result .= "Erreur fatale (" . $pdo_error->getMessage() . "), veuillez réessayer";
+    } catch(Error $error) {
+        $result . $error->getMessage();
+    }
+    return $result;
+}

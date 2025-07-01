@@ -36,3 +36,15 @@ if(str_contains($_SERVER['HTTP_REFERER'], "calculette.php") and $_SERVER['REQUES
     header("location: ../../../views/calculette/calculette.php");
     die();
 }
+
+if(str_contains($_SERVER['HTTP_REFERER'], "user_board.php") and $_SERVER['REQUEST_METHOD'] == 'POST'){
+
+    $historique_calculette = get_all_calcul_by_id($_SESSION["user"]["id"]);
+    if(!is_string($historique_calculette)){
+        $_SESSION["displayed_zone"] = "calcul_history";
+        $_SESSION["historique_calculette"] = $historique_calculette;
+    } 
+    header("location: ../../../views/user/user_board.php");
+    // Redirection vers la vue adéquate
+    die();
+}

@@ -22,7 +22,9 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
 
     $deleting_step = $_SESSION["deleting_step"] ?? null;
 
-    unset($_SESSION["fail_udpate"], $_SESSION["displayed_zone"], $_SESSION["deleting_step"]);
+    $historique_calculette = $_SESSION["historique_calculette"] ?? null;
+
+    unset($_SESSION["fail_udpate"], $_SESSION["displayed_zone"], $_SESSION["deleting_step"], $_SESSION["historique_calculette"]);
 }
 
 ?>
@@ -48,11 +50,11 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                 <div class="mt-5">
                     <span>Vous êtes inscrit depuis le <?php echo format_date($date_of_creation) ?></span>
                 </div>
-                <form action="./user_board.php" method="post">
+                <form action="../../src/controllers/calculette/calculette_controller.php" method="post">
                     <div class="mt-3 row">
                         <div class="col-5">
                             <div class="row">
-                                <button class="btn btn-primary">Historique calculette</button>
+                                <button class="btn btn-primary" name="display_zone" value="calcul_history">Historique calculette</button>
                             </div>
                         </div>
                         <div class="col-7">
@@ -61,6 +63,8 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                             </div>
                         </div>
                     </div>
+                </form>
+                <form action="./user_board.php" method="post">
                     <div class="mt-3 row">
                         <div class="col-5">
                             <div class="row">
@@ -79,6 +83,34 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                 <!-- Zone multifonction pour afficher les 4 options différentes -->
                 <?php if (isset($displayed_zone)) {
                     switch ($displayed_zone) {
+                        case "calcul_history": ?>
+                        <div class="mb-3">
+                            <span>Historique de vos utilisations de la calculette :</span>
+                        </div>
+                        <ul>
+                        <?php foreach($historique_calculette as $calcul){ ?>
+                            <li><?php 
+                            $result = "Le " . (new DateTime($calcul["date_of_creation"]))->format('d/m/Y \à H\h i\m\i\n s\s\e\c') 
+                            . " vous avez fait le calcul " . $calcul["first_number"] . " ";
+                            switch($calcul["operator"]){
+                                case "add":
+                                    $result .= "+";
+                                    break;
+                                case "subtract":
+                                    $result .= "-";
+                                    break;
+                                case "multiply":
+                                    $result .= "x";
+                                    break;
+                                case "divide":
+                                    $result .= "/";
+                                    break;
+                            }
+                            $result .= " " . $calcul["second_number"] . " = " . $calcul["result"];
+                            echo $result ?></li>
+                        <?php } ?>
+                        </ul>
+                        <?php break;
                         case "modify_user":
                 ?>
                             <?php if (isset($date_of_last_modify)) { ?>
