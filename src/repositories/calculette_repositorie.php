@@ -43,7 +43,7 @@ function get_by_id($id)
         if ($result) {
             return $result;
         } else {
-            throw new Exception("Aucun utilisateur avec ce pseudonyme n'existe");
+            throw new Exception("Vous n'avez effectué aucune action avec la calculette");
         }
 
     } catch (PDOException $error) {

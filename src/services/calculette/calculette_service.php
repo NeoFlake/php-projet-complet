@@ -62,8 +62,8 @@ function get_all_calcul_by_id($id){
         $result = get_by_id($id);
     } catch (PDOException $pdo_error){
         $result .= "Erreur fatale (" . $pdo_error->getMessage() . "), veuillez réessayer";
-    } catch(Error $error) {
-        $result . $error->getMessage();
+    } catch(Exception $error) {
+        $result .= $error->getMessage();
     }
     return $result;
 }

@@ -19,6 +19,7 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
     $date_of_last_modify = $_SESSION["user"]["date_of_last_modify"] !== $_SESSION["user"]["date_of_creation"] ? $_SESSION["user"]["date_of_last_modify"] : null;
     $displayed_zone = $_POST["display_zone"] ?? $_SESSION["displayed_zone"] ?? null;
     $fail_update = $_SESSION["fail_udpate"] ?? null;
+    $calcul_historic_null = $_SESSION["calcul_historic_null"] ?? null;
 
     $deleting_step = $_SESSION["deleting_step"] ?? null;
 
@@ -26,7 +27,7 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
 
     $historique_conjugaison = $_SESSION["historique_conjugaison"] ?? null;
 
-    unset($_SESSION["fail_udpate"], $_SESSION["displayed_zone"], $_SESSION["deleting_step"], $_SESSION["historique_calculette"]);
+    unset($_SESSION["fail_udpate"], $_SESSION["displayed_zone"], $_SESSION["deleting_step"], $_SESSION["historique_calculette"], $_SESSION["calcul_historic_null"]);
 }
 
 ?>
@@ -86,38 +87,43 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                 <?php if (isset($displayed_zone)) {
                     switch ($displayed_zone) {
                         case "calcul_history": ?>
-                        <div class="mb-3">
-                            <span>Historique de vos utilisations de la calculette :</span>
-                        </div>
-                        <ul>
-                        <?php foreach($historique_calculette as $calcul){ ?>
-                            <li><?php 
-                            $result = "Le " . (new DateTime($calcul["date_of_creation"]))->format('d/m/Y \à H\h i\m\i\n s\s\e\c') 
-                            . " vous avez fait le calcul " . $calcul["first_number"] . " ";
-                            switch($calcul["operator"]){
-                                case "add":
-                                    $result .= "+";
-                                    break;
-                                case "subtract":
-                                    $result .= "-";
-                                    break;
-                                case "multiply":
-                                    $result .= "x";
-                                    break;
-                                case "divide":
-                                    $result .= "/";
-                                    break;
+                            <div class="mb-3">
+                                <span>Historique de vos utilisations de la calculette :</span>
+                            </div>
+                            <?php if (isset($calcul_historic_null)) { ?>
+                                <div><?php echo $calcul_historic_null ?></div>
+                            <?php } else if(isset($historique_calculette)){ ?>
+                                <ul>
+                                    <?php foreach ($historique_calculette as $calcul) { ?>
+                                        <li><?php
+                                            $result = "Le " . (new DateTime($calcul["date_of_creation"]))->format('d/m/Y \à H\h i\m\i\n s\s\e\c')
+                                                . " vous avez fait le calcul " . $calcul["first_number"] . " ";
+                                            switch ($calcul["operator"]) {
+                                                case "add":
+                                                    $result .= "+";
+                                                    break;
+                                                case "subtract":
+                                                    $result .= "-";
+                                                    break;
+                                                case "multiply":
+                                                    $result .= "x";
+                                                    break;
+                                                case "divide":
+                                                    $result .= "/";
+                                                    break;
+                                            }
+                                            $result .= " " . $calcul["second_number"] . " = " . $calcul["result"];
+                                            echo $result ?></li>
+                                    <?php } ?>
+                                </ul>
+                            <?php
                             }
-                            $result .= " " . $calcul["second_number"] . " = " . $calcul["result"];
-                            echo $result ?></li>
-                        <?php } ?>
-                        </ul>
-                        <?php break;
+                            break;
                         case "conjugaison_history": ?>
 
-                           <?php break;
+                        <?php break;
                         case "modify_user":
-                ?>
+                        ?>
                             <?php if (isset($date_of_last_modify)) { ?>
                                 <div class="row">
                                     <span>Dernière modification : <?php echo format_date($date_of_last_modify) ?></span>
