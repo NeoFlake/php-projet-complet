@@ -45,25 +45,48 @@ function fixSignus($operator)
     return $result;
 }
 
-function save_calcul($operation){
+function save_calcul($operation)
+{
     $result = "Échec de la sauvegarde du calcul : ";
     try {
         save_new_calcul($operation);
         $result = true;
-    } catch(PDOException $pdo_error){
+    } catch (PDOException $pdo_error) {
         $result .= "Erreur fatale (" . $pdo_error->getMessage() . "), veuillez réessayer";
     }
     return $result;
 }
 
-function get_all_calcul_by_id($id){
+function get_all_calcul_by_id($id)
+{
     $result = "Échec de réception de l'historique des calculs : ";
     try {
-        $result = get_by_id($id);
-    } catch (PDOException $pdo_error){
+        $db_answer = get_by_id($id);
+
+        $result = null;
+
+        foreach ($db_answer as $row_answer) {
+            if (!$result) {
+                // On initialise une seule fois les infos générales
+                $result = [
+                    "verb" => $row_answer["verb"],
+                    "temps" => $row_answer["temps"],
+                    "date_of_creation" => $row_answer["date_of_creation"],
+                    "conjugaisons" => []
+                ];
+            }
+
+            $result["conjugaisons"][intval($row_answer["place_in_table"]) - 1] = $row_answer["conjugaison"];
+        }
+
+        ksort($result["conjugaisons"]);
+        $result["conjugaisons"] = array_values($result["conjugaisons"]);
+
+    } catch (PDOException $pdo_error) {
         $result .= "Erreur fatale (" . $pdo_error->getMessage() . "), veuillez réessayer";
-    } catch(Exception $error) {
+    } catch (Exception $error) {
         $result .= $error->getMessage();
     }
+
     return $result;
 }

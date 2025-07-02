@@ -19,6 +19,7 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
     $displayed_zone = $_POST["display_zone"] ?? $_SESSION["displayed_zone"] ?? null;
     $fail_update = $_SESSION["fail_udpate"] ?? null;
     $calcul_historic_null = $_SESSION["calcul_historic_null"] ?? null;
+    $conjugaison_historic_null = $_SESSION["conjugaison_historic_null"] ?? null;
 
     $deleting_step = $_SESSION["deleting_step"] ?? null;
 
@@ -52,20 +53,18 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                 <div class="mt-5">
                     <span>Vous êtes inscrit depuis le <?php echo format_date($date_of_creation) ?></span>
                 </div>
-                <form action="../../src/controllers/calculette/calculette_controller.php" method="post">
-                    <div class="mt-3 row">
-                        <div class="col-5">
-                            <div class="row">
-                                <button class="btn btn-primary" name="display_zone" value="calcul_history">Historique calculette</button>
-                            </div>
+                <div class="mt-3 row">
+                    <form action="../../src/controllers/calculette/calculette_controller.php" method="post" class="col-5">
+                        <div class="row">
+                            <button class="btn btn-primary" name="display_zone" value="calcul_history">Historique calculette</button>
                         </div>
-                        <div class="col-7">
-                            <div class="row">
-                                <button class="btn btn-success col-9 offset-1" name="display_zone" value="conjugaison_history">Historique conjugaison</button>
-                            </div>
+                    </form>
+                    <form action="../../src/controllers/conjugaison/conjugaison_controller.php" method="post" class="col-7">
+                        <div class="row">
+                            <button class="btn btn-success col-9 offset-1" name="display_zone" value="conjugaison_history">Historique conjugaison</button>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
                 <form action="./user_board.php" method="post">
                     <div class="mt-3 row">
                         <div class="col-5">
@@ -87,11 +86,11 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                     switch ($displayed_zone) {
                         case "calcul_history": ?>
                             <div class="mb-3">
-                                <span>Historique de vos utilisations de la calculette :</span>
+                                <span>Historique de vos calculs :</span>
                             </div>
                             <?php if (isset($calcul_historic_null)) { ?>
                                 <div><?php echo $calcul_historic_null ?></div>
-                            <?php } else if(isset($historique_calculette)){ ?>
+                            <?php } else if (isset($historique_calculette)) { ?>
                                 <ul>
                                     <?php foreach ($historique_calculette as $calcul) { ?>
                                         <li><?php
@@ -119,7 +118,41 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                             }
                             break;
                         case "conjugaison_history": ?>
-
+                            <div class="mb-3">
+                                <span>Historique de vos conjugaisons :</span>
+                            </div>
+                            <?php if (isset($conjugaison_historic_null)) { ?>
+                                <div><?php echo $conjugaison_historic_null ?></div>
+                            <?php } else if (isset($historique_conjugaison)) { ?>
+                                <ul>
+                                    <?php foreach ($historique_calculette as $calcul) { ?>
+                                        <li><?php
+                                            $result = "Le " . (new DateTime($calcul["date_of_creation"]))->format('d/m/Y \à H\h i\m\i\n s\s\e\c')
+                                                . " vous avez fait le calcul " . $calcul["first_number"] . " ";
+                                            switch ($calcul["operator"]) {
+                                                case "add":
+                                                    $result .= "+";
+                                                    break;
+                                                case "subtract":
+                                                    $result .= "-";
+                                                    break;
+                                                case "multiply":
+                                                    $result .= "x";
+                                                    break;
+                                                case "divide":
+                                                    $result .= "/";
+                                                    break;
+                                            }
+                                            $result .= " " . $calcul["second_number"] . " = " . $calcul["result"];
+                                            echo $result ?></li>
+                                    <?php } ?>
+                                </ul>
+                                <!-- $result = [
+                    "verb" => $row_answer["verb"],$historique_conjugaison
+                    "temps" => $row_answer["temps"],
+                    "date_of_creation" => $row_answer["date_of_creation"],
+                    "conjugaisons" => []
+                ]; -->
                         <?php break;
                         case "modify_user":
                         ?>
