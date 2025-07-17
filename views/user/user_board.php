@@ -92,169 +92,18 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                 <!-- Zone multifonction pour afficher les 4 options différentes -->
                 <?php if (isset($displayed_zone)) {
                     switch ($displayed_zone) {
-                        case "calcul_history": ?>
-                            <div class="mb-3">
-                                <span>Historique de vos calculs :</span>
-                            </div>
-                            <?php if (isset($calcul_historic_null)) { ?>
-                                <div><?php echo $calcul_historic_null ?></div>
-                            <?php } else if (isset($historique_calculette)) { ?>
-                                <ul>
-                                    <?php foreach ($historique_calculette as $calcul) { ?>
-                                        <li class="mt-3"><?php
-                                            $result = "Le " . (new DateTime($calcul["date_of_creation"]))->format('d/m/Y \à H\h i\m\i\n s\s\e\c')
-                                                . " vous avez fait le calcul " . $calcul["first_number"] . " ";
-                                            switch ($calcul["operator"]) {
-                                                case "add":
-                                                    $result .= "+";
-                                                    break;
-                                                case "subtract":
-                                                    $result .= "-";
-                                                    break;
-                                                case "multiply":
-                                                    $result .= "x";
-                                                    break;
-                                                case "divide":
-                                                    $result .= "/";
-                                                    break;
-                                            }
-                                            $result .= " " . $calcul["second_number"] . " = " . $calcul["result"];
-                                            echo $result ?></li>
-                                    <?php } ?>
-                                </ul>
-                                <?php } ?>
-                            <?php
+                        case "calcul_history":
+                            include "../partial/_calcul_history_partial.php";
                             break;
-                        case "conjugaison_history": ?>
-                            <div class="mb-3">
-                                <span>Historique de vos conjugaisons :</span>
-                            </div>
-                            <?php if (isset($conjugaison_historic_null)) { ?>
-                                <div><?php echo $conjugaison_historic_null ?></div>
-                            <?php } else if (isset($historique_conjugaison)) { ?>
-                                <ul>
-                                    <?php foreach ($historique_conjugaison as $conjugaison) { ?>
-                                        <li class="mt-5"><?php
-                                            $result = "Le " . (new DateTime($conjugaison["date_of_creation"]))->format('d/m/Y \à H\h i\m\i\n s\s\e\c')
-                                                . " vous avez conjugué le verbe \"" . $conjugaison["verb"] . ($conjugaison["temps"] === "imparfait" ? " à l'" : "\" au ") . $conjugaison["temps"] . " ce qui donne : ";
-                                            echo $result;?>
-                                            <ul class="list-unstyled">
-                                                <?php
-                                                foreach($conjugaison["conjugaisons"] as $ligne_de_conjugaison){ ?>
-                                                <li>
-                                                    <?php echo $ligne_de_conjugaison ?>
-                                                </li>
-                                                <?php }?>
-                                            </ul>
-                                            </li>
-                                    <?php } ?>
-                                </ul>
-                            <?php
-                            }
+                        case "conjugaison_history":
+                            include "../partial/_conjugaison_history_partial.php";
                             break;
                         case "modify_user":
-                            ?>
-                            <?php if (isset($date_of_last_modify)) { ?>
-                                <div class="row">
-                                    <span>Dernière modification : <?php echo format_date($date_of_last_modify) ?></span>
-                                </div>
-                            <?php } ?>
-                            <form action="../../src/controllers/user/user_controller.php" method="post" class="mt-3">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label for="username" class="form-label">Pseudonyme </label>
-                                        <input type="text" id="username" name="new_username" class="form-control" value="<?php echo $username_logged ?>" />
-                                    </div>
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col-6">
-                                        <label for="password" class="form-label">Ancien Mot de passe (obligatoire pour modification)</label>
-                                        <input type="password" id="password" name="old_password" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col-6">
-                                        <label for="password" class="form-label">Nouveau Mot de passe</label>
-                                        <input type="password" id="password" name="new_password" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col-6">
-                                        <label for="password" class="form-label">Confirmer Mot de passe</label>
-                                        <input type="password" id="password" name="confirm_password" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col-6">
-                                        <label for="first_name" class="form-label">Prénom </label>
-                                        <input type="text" id="first_name" name="new_first_name" class="form-control" value="<?php echo $first_name ?>" />
-                                    </div>
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col-6">
-                                        <label for="last_name" class="form-label">Nom de Famille </label>
-                                        <input type="text" id="last_name" name="new_last_name" class="form-control" value="<?php echo $last_name ?>" />
-                                    </div>
-                                </div>
-                                <div class="row mt-5 ms-1">
-                                    <button class="btn btn-primary col-3" name="modify_user_button" value="validated">Modifier</button>
-                                </div>
-                            </form>
-                            <?php
-                            if (isset($fail_update)) { ?>
-                                <div class="mt-3">
-                                    <span> <?php echo $fail_update ?></span>
-                                </div>
-                            <?php }
+                            include "../partial/_modify_user_partial.php";
                             break;
-                        case "delete_user": ?>
-                            <form action="../../src/controllers/user/user_controller.php" method="post">
-                                <div class="row ms-1">
-                                    <span><?php echo isset($deleting_step) ? "Procédure de destruction de compte en cours" : "Voulez-vous vraiment détruire votre compte" ?></span>
-                                    <div class="mt-3">
-                                        <button class="btn btn-warning col-2" name="delete_first_step" value="validated" <?php echo isset($deleting_step) ? "disabled" : null ?>>Oui</button>
-                                        <button class="btn btn-success col-2 ms-3" name="delete_first_step" value="aborted" <?php echo isset($deleting_step) ? "disabled" : null ?>>Non</button>
-                                    </div>
-                                </div>
-                            </form>
-                            <?php if (isset($deleting_step) and $deleting_step > 1) { ?>
-                                <form action="../../src/controllers/user/user_controller.php" method="post">
-                                    <div class="row ms-1">
-                                        <span class="mt-3"><?php echo ($deleting_step > 2) ? "Identité confirmé" : "Confirmez votre identité pour continuer la procédure" ?></span>
-                                        <div class="row mt-3">
-                                            <div class="col-6">
-                                                <label for="username" class="form-label">Pseudonyme </label>
-                                                <input type="text" id="username" name="username" class="form-control" <?php echo $deleting_step > 2 ? "disabled" : null ?> />
-                                            </div>
-                                        </div>
-                                        <div class="row mt-4">
-                                            <div class="col-6">
-                                                <label for="password" class="form-label">Mot de passe</label>
-                                                <input type="password" id="password" name="password" class="form-control" <?php echo $deleting_step > 2 ? "disabled" : null ?> />
-                                            </div>
-                                        </div>
-                                        <div class="mt-3">
-                                            <button class="btn btn-warning col-2 ms-3" name="delete_second_step" value="confirmed" <?php echo $deleting_step > 2 ? "disabled" : null ?>>Confirmer</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            <?php }
-                            if ($deleting_step > 2) { ?>
-                                <form action="../../src/controllers/user/user_controller.php" method="post">
-                                    <div class="row ms-1 mt-5">
-                                        <span class="mt-3">Écrivez "CONFIRMER DESTRUCTION" pour terminer la procédure de destruction</span>
-                                        <div class="row mt-3">
-                                            <div class="col-6">
-                                                <input type="text" id="total_destruction" name="total_destruction" class="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="mt-3">
-                                            <button class="btn btn-danger col-4 ms-3" name="delete_last_step" value="confirmed">Détruire définitivement</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            <?php } ?>
-                <?php break;
+                        case "delete_user":
+                            include "../partial/_delete_user_partial.php";
+                            break;
                     }
                 } ?>
             </div>
