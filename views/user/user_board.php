@@ -153,9 +153,10 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                     "date_of_creation" => $row_answer["date_of_creation"],
                     "conjugaisons" => []
                 ]; -->
-                        <?php break;
+                            <?php break;
+                            }
                         case "modify_user":
-                        ?>
+                            ?>
                             <?php if (isset($date_of_last_modify)) { ?>
                                 <div class="row">
                                     <span>Dernière modification : <?php echo format_date($date_of_last_modify) ?></span>
