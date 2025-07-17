@@ -27,7 +27,15 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
 
     $historique_conjugaison = $_SESSION["historique_conjugaison"] ?? null;
 
-    unset($_SESSION["fail_udpate"], $_SESSION["displayed_zone"], $_SESSION["deleting_step"], $_SESSION["historique_calculette"], $_SESSION["calcul_historic_null"]);
+    unset(
+        $_SESSION["fail_udpate"],
+        $_SESSION["displayed_zone"],
+        $_SESSION["deleting_step"],
+        $_SESSION["historique_calculette"],
+        $_SESSION["calcul_historic_null"],
+        $_SESSION["historique_conjugaison"],
+        $_SESSION["conjugaison_historic_null"]
+    );
 }
 
 ?>
@@ -93,7 +101,7 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                             <?php } else if (isset($historique_calculette)) { ?>
                                 <ul>
                                     <?php foreach ($historique_calculette as $calcul) { ?>
-                                        <li><?php
+                                        <li class="mt-3"><?php
                                             $result = "Le " . (new DateTime($calcul["date_of_creation"]))->format('d/m/Y \à H\h i\m\i\n s\s\e\c')
                                                 . " vous avez fait le calcul " . $calcul["first_number"] . " ";
                                             switch ($calcul["operator"]) {
@@ -114,8 +122,8 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                                             echo $result ?></li>
                                     <?php } ?>
                                 </ul>
+                                <?php } ?>
                             <?php
-                            }
                             break;
                         case "conjugaison_history": ?>
                             <div class="mb-3">
@@ -125,36 +133,25 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                                 <div><?php echo $conjugaison_historic_null ?></div>
                             <?php } else if (isset($historique_conjugaison)) { ?>
                                 <ul>
-                                    <?php foreach ($historique_calculette as $calcul) { ?>
-                                        <li><?php
-                                            $result = "Le " . (new DateTime($calcul["date_of_creation"]))->format('d/m/Y \à H\h i\m\i\n s\s\e\c')
-                                                . " vous avez fait le calcul " . $calcul["first_number"] . " ";
-                                            switch ($calcul["operator"]) {
-                                                case "add":
-                                                    $result .= "+";
-                                                    break;
-                                                case "subtract":
-                                                    $result .= "-";
-                                                    break;
-                                                case "multiply":
-                                                    $result .= "x";
-                                                    break;
-                                                case "divide":
-                                                    $result .= "/";
-                                                    break;
-                                            }
-                                            $result .= " " . $calcul["second_number"] . " = " . $calcul["result"];
-                                            echo $result ?></li>
+                                    <?php foreach ($historique_conjugaison as $conjugaison) { ?>
+                                        <li class="mt-5"><?php
+                                            $result = "Le " . (new DateTime($conjugaison["date_of_creation"]))->format('d/m/Y \à H\h i\m\i\n s\s\e\c')
+                                                . " vous avez conjugué le verbe \"" . $conjugaison["verb"] . ($conjugaison["temps"] === "imparfait" ? " à l'" : "\" au ") . $conjugaison["temps"] . " ce qui donne : ";
+                                            echo $result;?>
+                                            <ul class="list-unstyled">
+                                                <?php
+                                                foreach($conjugaison["conjugaisons"] as $ligne_de_conjugaison){ ?>
+                                                <li>
+                                                    <?php echo $ligne_de_conjugaison ?>
+                                                </li>
+                                                <?php }?>
+                                            </ul>
+                                            </li>
                                     <?php } ?>
                                 </ul>
-                                <!-- $result = [
-                    "verb" => $row_answer["verb"],$historique_conjugaison
-                    "temps" => $row_answer["temps"],
-                    "date_of_creation" => $row_answer["date_of_creation"],
-                    "conjugaisons" => []
-                ]; -->
-                            <?php break;
+                            <?php
                             }
+                            break;
                         case "modify_user":
                             ?>
                             <?php if (isset($date_of_last_modify)) { ?>

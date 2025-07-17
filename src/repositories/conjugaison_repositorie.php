@@ -51,10 +51,10 @@ function get_by_id($id)
 {
     $pdo = get_connection();
     try {
-        $select = "SELECT * FROM conjugaison_usage AS usage
-        JOIN resultat_conjugaison AS result ON result.id_conjugaison = usage.id 
+        $select = "SELECT * FROM conjugaison_usage AS us
+        JOIN resultat_conjugaison AS res ON res.id_conjugaison = us.id 
         WHERE id_user= :id_user 
-        ORDER BY date_of_creation DESC";
+        ORDER BY us.date_of_creation DESC";
 
         $query = $pdo->prepare($select);
         $query->bindValue(":id_user", $id);

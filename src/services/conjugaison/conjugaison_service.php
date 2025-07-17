@@ -54,8 +54,8 @@ function save_log_of_conjugaison($conjugaison_to_save)
     try {
         $id_transaction = save_new_conjugaison($conjugaison_to_save);
 
-        if($id_transaction !== false){
-            foreach($conjugaison_to_save["table_de_conjugaison"] as $index => $ligne_de_conjugaison){
+        if ($id_transaction !== false) {
+            foreach ($conjugaison_to_save["table_de_conjugaison"] as $index => $ligne_de_conjugaison) {
                 save_new_row_of_conjugaison($id_transaction, $index, $ligne_de_conjugaison);
             }
             $result = true;
@@ -70,14 +70,41 @@ function get_all_conjugaison_by_id($id)
 {
     $result = "Échec de réception de l'historique des conjugaisons : ";
     try {
-        $result = get_by_id($id);
+        $db_answer = get_by_id($id);
+        $actual_verb = "";
+        $part_of_result = [];
+        foreach ($db_answer as $row_answer) {
+            if ($row_answer["verb"] !== $actual_verb) {
+                // On initialise une seule fois les infos générales
+                $part_of_result = [
+                    "verb" => $row_answer["verb"],
+                    "temps" => $row_answer["temps"],
+                    "date_of_creation" => $row_answer["date_of_creation"],
+                    "conjugaisons" => []
+                ];
+
+                $actual_verb = $part_of_result["verb"];
+            }
+
+            array_push($part_of_result["conjugaisons"], $row_answer["conjugaison"]);
+
+            if (count($part_of_result["conjugaisons"]) === 6) {
+                if(is_string($result)){
+                    $result = [];
+                }
+                ksort($part_of_result["conjugaisons"]);
+                $part_of_result["conjugaisons"] = array_values($part_of_result["conjugaisons"]);
+                array_push($result, $part_of_result);
+            }
+        }
+
+        return $result;
+
     } catch (PDOException $pdo_error) {
         $result .= "Erreur fatale (" . $pdo_error->getMessage() . "), veuillez réessayer";
     } catch (Error $error) {
-        $result . $error->getMessage();
+        $result .= $error->getMessage();
     }
-
-    
 
     return $result;
 }

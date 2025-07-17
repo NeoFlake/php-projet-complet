@@ -61,32 +61,11 @@ function get_all_calcul_by_id($id)
 {
     $result = "Échec de réception de l'historique des calculs : ";
     try {
-        $db_answer = get_by_id($id);
-
-        $result = null;
-
-        foreach ($db_answer as $row_answer) {
-            if (!$result) {
-                // On initialise une seule fois les infos générales
-                $result = [
-                    "verb" => $row_answer["verb"],
-                    "temps" => $row_answer["temps"],
-                    "date_of_creation" => $row_answer["date_of_creation"],
-                    "conjugaisons" => []
-                ];
-            }
-
-            $result["conjugaisons"][intval($row_answer["place_in_table"]) - 1] = $row_answer["conjugaison"];
-        }
-
-        ksort($result["conjugaisons"]);
-        $result["conjugaisons"] = array_values($result["conjugaisons"]);
-
+        $result = get_by_id($id);
     } catch (PDOException $pdo_error) {
         $result .= "Erreur fatale (" . $pdo_error->getMessage() . "), veuillez réessayer";
-    } catch (Exception $error) {
-        $result .= $error->getMessage();
+    } catch (Error $error) {
+        $result . $error->getMessage();
     }
-
     return $result;
 }
