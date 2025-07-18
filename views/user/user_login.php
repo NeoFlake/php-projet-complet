@@ -24,7 +24,7 @@ unset($_SESSION['username'], $_SESSION["fail_connexion"]);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion utilisateur</title>
-    <?php include "../partial/_bootstrap_header.php" ?>
+    <?php include "../partial/shared/_bootstrap_header.php" ?>
 </head>
 
 <body>
@@ -60,7 +60,7 @@ unset($_SESSION['username'], $_SESSION["fail_connexion"]);
             </div>
         </div>
     </div>
-    <?php include "../partial/_bootstrap_body.php" ?>
+    <?php include "../partial/shared/_bootstrap_body.php" ?>
 </body>
 
 </html>

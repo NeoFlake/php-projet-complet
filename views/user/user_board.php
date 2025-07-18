@@ -47,12 +47,12 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de l'utilisateur</title>
-    <?php include "../partial/_bootstrap_header.php" ?>
+    <?php include "../partial/shared/_bootstrap_header.php" ?>
 </head>
 
 <body>
     <div class="container">
-        <?php include "../partial/_navbar.php" ?>
+        <?php include "../partial/shared/_navbar.php" ?>
         <div class="d-flex justify-content-center mt-5">
             <h1>Tableau de bord de <?php echo $first_name . " " . $last_name ?></h1>
         </div>
@@ -93,23 +93,23 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
                 <?php if (isset($displayed_zone)) {
                     switch ($displayed_zone) {
                         case "calcul_history":
-                            include "../partial/_calcul_history_partial.php";
+                            include "../partial/user_board/_calcul_history_partial.php";
                             break;
                         case "conjugaison_history":
-                            include "../partial/_conjugaison_history_partial.php";
+                            include "../partial/user_board/_conjugaison_history_partial.php";
                             break;
                         case "modify_user":
-                            include "../partial/_modify_user_partial.php";
+                            include "../partial/user_board/_modify_user_partial.php";
                             break;
                         case "delete_user":
-                            include "../partial/_delete_user_partial.php";
+                            include "../partial/user_board/_delete_user_partial.php";
                             break;
                     }
                 } ?>
             </div>
         </div>
     </div>
-    <?php include "../partial/_bootstrap_body.php" ?>
+    <?php include "../partial/shared/_bootstrap_body.php" ?>
 </body>
 
 </html>

@@ -27,12 +27,12 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conjugaison</title>
-    <?php include "../partial/_bootstrap_header.php" ?>
+    <?php include "../partial/shared/_bootstrap_header.php" ?>
 </head>
 
 <body>
     <div class="container">
-        <?php include "../partial/_navbar.php" ?>
+        <?php include "../partial/shared/_navbar.php" ?>
         <div class="d-flex justify-content-center mt-5">
             <h1>Conjugaison du premier groupe</h1>
         </div>
@@ -76,7 +76,7 @@ if (!isset($_SESSION["username_logged"]) or !isset($_SESSION["user"])) {
         }
         ?>
     </div>
-    <?php include "../partial/_bootstrap_body.php" ?>
+    <?php include "../partial/shared/_bootstrap_body.php" ?>
 </body>
 
 </html>
